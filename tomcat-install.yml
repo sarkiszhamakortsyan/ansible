@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+
+  become: yes
+  become_method: sudo
+  remote_user: sako
+
+  tasks:
+  - name: Update and upgrade apt packages
+    apt:
+      upgrade: yes
+      update_cache: yes
+      cache_valid_time: 86400 #One day
+
+  - name: install JDK 11
+    apt:
+      name: openjdk-11-jdk
+      state: present
+
+  - name: Create folder
+    file:
+      path: /home/sako/tomcat
+      state: directory
+      mode: 0755
+      owner: sako
+      group: sako
+
+  - name: Download Tomcat
+    get_url: url=http://apache.cbox.biz/tomcat/tomcat-8/v8.5.58/bin/apache-tomcat-8.5.58.tar.gz dest=/home/sako/tomcat
+  - name: Extract archive
+    unarchive: src=/home/sako/tomcat/apache-tomcat-8.5.58.tar.gz dest=/home/sako/tomcat
+  - name: Start Apache Tomcat
+    shell: /home/sako/tomcat/apache-tomcat-8.5.58/bin/startup.sh
