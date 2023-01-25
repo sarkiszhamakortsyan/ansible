@@ -1,0 +1,6 @@
+---
+
+- name: install_agent | Windows
+  include: install_agent_windows.yml
+  when:
+    - ansible_os_family == 'Windows'

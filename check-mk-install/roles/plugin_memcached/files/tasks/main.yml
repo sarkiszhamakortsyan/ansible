@@ -1,0 +1,12 @@
+---
+
+- name: Gather information about the installed packages
+  #package_facts: manager=auto
+  changed_when: false
+
+- name: Copy the memcached plugin if memcached is installed
+  copy:
+    src: mk_memcached
+    dest: /usr/lib/check_mk_agent/plugins/mk_memcached
+    mode: "755"
+  when: ansible_facts.packages.memcached is defined

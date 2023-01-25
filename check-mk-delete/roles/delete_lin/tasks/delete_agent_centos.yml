@@ -1,0 +1,24 @@
+---
+
+- name: Deleting /etc/check_mk/ folder
+  file:
+    path: /etc/check_mk/
+    state: absent
+
+- name: Deleting /usr/lib/check_mk_agent/ folder
+  file:
+    path: /usr/lib/check_mk_agent/
+    state: absent
+
+- name: Populate sevice facts
+  service_facts:
+
+- name: Disallow tcp port "{{ check_mk_server }}" firewalld | CentOS 7
+  firewalld:
+    port: "6556/tcp"
+    #source: "{{ firewalld_zones }}"
+    permanent: yes
+    immediate: yes
+    state: disabled
+  become: yes
+  when: ansible_facts['services']['firewalld.service']['state'] == "running"

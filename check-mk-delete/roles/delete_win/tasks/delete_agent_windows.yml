@@ -1,0 +1,35 @@
+---
+
+- name: Delete Check_MK config ini located in C:\temp\checkmk | Windows
+  win_file:
+    path: 'C:\Program Files (x86)\check_mk\check_mk.ini'
+    state: absent
+
+- name: Uninstall Check_MK MSI
+  win_package:
+    path: "C:\\temp\\checkmk\\{{ check_mk_win_msi }}"
+    state: absent
+
+- name: Delete C:\temp\checkmk directory structure | Windows
+  win_file:
+    path: C:\temp\checkmk
+    state: absent
+
+- name: Firewall rule to allow Check_MK to TCP port 6556
+  win_firewall_rule:
+    name: Check_MK
+    localport: "6556"
+    action: allow
+    direction: in
+    protocol: tcp
+    state: absent
+    enabled: no
+
+#- name: Copy check_reg.ps1 to C:\temp\checkmk | Windows
+#  win_copy:
+#    src: windows/check_reg.ps1
+#    dest: 'C:\temp\checkmk\check_reg.ps1'
+
+# Execute win shell to register host in to check_mk inventory
+#- name: Register Windows Server
+#  win_shell: powershell.exe -executionpolicy unrestricted -command C:\temp\checkmk\check_reg.ps1 -mk_pass "{{ mk_pass }}"

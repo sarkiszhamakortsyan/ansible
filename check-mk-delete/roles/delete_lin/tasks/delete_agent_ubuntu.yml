@@ -1,0 +1,16 @@
+---
+
+- name: Delete check_mk dep from local file | Ubuntu
+  apt:
+    deb: "{{ check_mk_deb_url }}"
+    state: absent
+
+- name: Deleting /etc/check_mk/ folder
+  file:
+    path: /etc/check_mk/
+    state: absent
+
+- name: Deleting /usr/lib/check_mk_agent/ folder
+  file:
+    path: /usr/lib/check_mk_agent/
+    state: absent

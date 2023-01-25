@@ -1,0 +1,11 @@
+---
+
+- name: install_agent | CentOS 7
+  include: install_agent_centos.yml
+  when:
+    - (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7")
+
+- name: install_agent | Ubuntu
+  include: install_agent_ubuntu.yml
+  when:
+    - (ansible_facts['distribution'] == "Ubuntu")

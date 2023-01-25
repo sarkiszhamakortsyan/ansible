@@ -1,0 +1,23 @@
+---
+
+check_mk_rpm_url: "https://artifactory.dev.syncplicity.com/artifactory/devops-tools/check_mk/agent/check-mk-agent-1.5.0p16-1b2888ce61e8d6c3.noarch.rpm"
+check_mk_deb_url: "https://artifactory.dev.syncplicity.com/artifactory/devops-tools/check_mk/agent/check-mk-agent_1.5.0p16-1b2888ce61e8d6c3_all.deb"
+check_mk_win_url: "https://artifactory.dev.syncplicity.com/artifactory/devops-tools/check_mk/agent/check-mk-agent-1.5.0p16-1b2888ce61e8d6c3.msi"
+
+install_agent_packages_centos:
+  - curl
+  - xinetd
+  - openssl
+  - epel-release
+  - mc
+  - unzip
+  - vim
+  - wget
+
+install_agent_packages_ubuntu:
+  - curl
+  - xinetd
+  - openssl
+  - mc
+  - unzip
+  - vim

@@ -1,0 +1,8 @@
+---
+
+  - hosts: all
+    become: true
+
+    roles:
+      - install_linux
+      - plugin_memcached

@@ -1,0 +1,7 @@
+---
+
+- name: reload_service_xinetd
+  systemd:
+    name: xinetd
+    enabled: yes
+    state: restarted

@@ -1,0 +1,6 @@
+---
+
+- name: restart_check_mk_service
+  win_service:
+    name: Check_MK_Agent
+    state: restarted

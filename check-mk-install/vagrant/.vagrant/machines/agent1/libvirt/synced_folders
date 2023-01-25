@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/tkriviradev/Documents/projects/check_mk_agent/vagrant","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}

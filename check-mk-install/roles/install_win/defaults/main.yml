@@ -1,0 +1,12 @@
+---
+
+ansible_port: 5986
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore
+ansible_winrm_transport: ntlm
+
+check_mk_rpm_url: "http://10.129.108.193/check-mk-agent-1.5.0p16-1b2888ce61e8d6c3.noarch.rpm"
+check_mk_deb_url: "http://10.129.108.193/check-mk-agent_1.5.0p16-1b2888ce61e8d6c3_all.deb"
+check_mk_win_url: "http://10.129.108.193/check-mk-agent-1.5.0p16-1b2888ce61e8d6c3.msi"
+
+check_mk_win_msi: check-mk-agent-1.5.0p16-1b2888ce61e8d6c3.msi

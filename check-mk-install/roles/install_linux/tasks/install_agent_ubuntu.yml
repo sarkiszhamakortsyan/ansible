@@ -1,0 +1,39 @@
+---
+
+- name: Ensure that the core packages are installed | Ubuntu
+  apt:
+    name: "{{ install_agent_packages_ubuntu }}"
+    update_cache: yes
+    cache_valid_time: 3600
+  
+- name: Install check_mk dep from local file | Ubuntu
+  apt:
+    deb: "{{ check_mk_deb_url }}"
+    state: present
+
+- name: Create cache and scripts directory | Ubuntu
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "755"
+  with_items:
+    - '/var/lib/check_mk_agent/cache/'
+    - '/usr/lib/check_mk_agent/scripts/'
+
+- name: Copy all needed files to the target host | Ubuntu
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: no
+    mode: "755"
+  with_items:
+    - { src: 'ubuntu/plugins/', dest: '/usr/lib/check_mk_agent/plugins/' }
+    - { src: 'ubuntu/local/', dest: '/usr/lib/check_mk_agent/local/' }
+    - { src: 'configs/logwatch.cfg', dest: '/etc/check_mk/logwatch.cfg' }
+    - { src: 'configs/encryption.cfg', dest: '/etc/check_mk/encryption.cfg' }
+    - { src: 'ubuntu/lib/host_register.sh', dest: '/usr/lib/check_mk_agent/scripts/host_register.sh' }
+    - { src: 'configs/check-mk-agent', dest: '/etc/xinetd.d/check-mk-agent' }
+  notify: reload_service_xinetd
+
+#- name: register the Server | Ubuntu
+#  shell: "/usr/lib/check_mk_agent/scripts/host_register.sh -u autouser -f discovered_phx -p {{ mk_pass }} "

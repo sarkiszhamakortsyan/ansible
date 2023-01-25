@@ -1,0 +1,46 @@
+---
+
+- name: Create C:\temp\checkmk directory structure | Windows
+  win_file:
+    path: C:\temp\checkmk
+    state: directory
+
+- name: Download Check_MK MSI to C:\temp\checkmk | Windows
+  win_get_url:
+    url: "{{ check_mk_win_url }}"
+    dest: "C:\\temp\\checkmk\\{{ check_mk_win_msi }}"
+
+- name: Install Check_MK MSI
+  win_package:
+    path: "C:\\temp\\checkmk\\{{ check_mk_win_msi }}"
+#  notify: restart_check_mk_service
+#  notify:
+#  - Restart check_mk
+    state: present
+
+- name: Copy Check_MK config ini to C:\temp\checkmk | Windows
+  win_copy:
+    src: windows/check_mk.ini
+    dest: 'C:\Program Files (x86)\check_mk\check_mk.ini'
+#  notify: restart_check_mk_service
+#  notify:
+#  - Restart check_mk
+
+- name: Firewall rule to allow Check_MK to TCP port 6556
+  win_firewall_rule:
+    name: Check_MK
+    localport: "6556"
+    action: allow
+    direction: in
+    protocol: tcp
+    state: present
+    enabled: yes
+
+#- name: Copy check_reg.ps1 to C:\temp\checkmk | Windows
+#  win_copy:
+#    src: windows/check_reg.ps1
+#    dest: 'C:\temp\checkmk\check_reg.ps1'
+
+# Execute win shell to register host in to check_mk inventory
+#- name: Register Windows Server
+#  win_shell: powershell.exe -executionpolicy unrestricted -command C:\temp\checkmk\check_reg.ps1 -mk_pass "{{ mk_pass }}"

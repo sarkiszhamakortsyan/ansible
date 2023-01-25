@@ -1,0 +1,37 @@
+stages:
+  - apply
+
+.run-apply-linux:
+  allow_failure: true
+  only:
+    refs:
+      - master
+  stage: apply
+  tags:
+    - phx-tests
+  script:
+    - chmod +x playbook_lin.sh
+    - ./playbook_lin.sh
+
+.run-apply-win:
+  allow_failure: true
+  only:
+    refs:
+      - master
+  stage: apply
+  tags:
+    - phx-tests
+  script:
+  #  - chmod +x playbook_win.sh
+  #  - ./playbook_win.sh
+    - ansible-playbook -i hosts install_check_mk_win.yml
+
+run-apply-linux:
+  extends: .run-apply-linux
+  variables:
+    PLAYBOOK_NAME: "install_check_mk_lin.yml"
+
+run-apply-win:
+  extends: .run-apply-win
+  variables:
+    PLAYBOOK_NAME: "install_check_mk_win.yml"
